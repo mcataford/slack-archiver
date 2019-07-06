@@ -16,6 +16,7 @@ pip install -r requirements.txt
 ```
 
 This project uses [invoke](http://www.pyinvoke.org/), use any of the commands below as `invoke [command]`.
+
 |Command|Effect|
 |---|---|
 |`format`|Formats the source. __This must be done to anything being committed__|
