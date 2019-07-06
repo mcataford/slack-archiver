@@ -3,8 +3,8 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from app import SlackArchiver
-from use_cases import (
+from slack_archiver.app import SlackArchiver
+from slack_archiver.use_cases import (
     read_config_file,
     write_config_file,
     get_parsed_arguments,
@@ -27,7 +27,7 @@ def run():
 
     if args.action == "archive":
         result = archiver.get_channel_history(args.channel)
-        write_to_json_archive(result)
+        write_to_json_archive(args.channel, result)
 
 
 if __name__ == "__main__":

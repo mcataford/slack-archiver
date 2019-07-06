@@ -8,6 +8,7 @@ setup(
     author="Marc Cataford",
     author_email="c.marcandre@gmail.com",
     license="MIT",
-    packages=["slack-archiver"],
+    packages=["slack_archiver"],
+    requires=["slackclient"],
     zip_safe=False,
 )

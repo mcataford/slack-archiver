@@ -2,7 +2,7 @@ import slack
 
 from datetime import datetime
 
-from exceptions import ChannelDoesNotExistException
+from slack_archiver.exceptions import ChannelDoesNotExistException
 
 
 class SlackArchiver:

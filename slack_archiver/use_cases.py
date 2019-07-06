@@ -4,7 +4,7 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
-from exceptions import NoConfigFileException
+from slack_archiver.exceptions import NoConfigFileException
 
 
 def read_config_file():
@@ -24,10 +24,10 @@ def write_config_file(content):
         json_dump(content, config_file)
 
 
-def write_to_json_archive(content):
+def write_to_json_archive(channel, content):
     target_path = Path(".").resolve()
     today = str(datetime.now())
-    output_filename = "{}_{}.json".format(args.channel, today)
+    output_filename = "{}_{}.json".format(channel, today)
     output_path = target_path.joinpath(output_filename)
     with open(output_path, "w") as outfile:
         json.dump(content, outfile)
