@@ -17,7 +17,6 @@ def run():
     token = current_config.get("slack_token")
 
     args = get_parsed_arguments()
-    print(args)
     if args.action == "init":
         token = args.token
         init_config = {"slack_token": token}
