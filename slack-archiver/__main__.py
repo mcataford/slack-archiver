@@ -1,40 +1,28 @@
-import argparse
 import json
 
 from datetime import datetime
 from pathlib import Path
 
 from app import SlackArchiver
- 
-if __name__ == '__main__':
-    token = None
-    config_path = Path().home().joinpath('.slackarchiverrc').resolve()
-    if config_path.is_file():
-        with open(config_path, 'r') as infile:
-            config = json.load(infile)
-            token = config.get('slack_token')
+from use_cases import ( read_config_file, write_config_file, get_parsed_arguments, write_to_json_archive )
 
-    parser = argparse.ArgumentParser(description='description')
-    parser.add_argument('action', help='The action to take', )
-    parser.add_argument('-c', '--channel', help='Channel name')
-    parser.add_argument('-t', '--token', help='Slack token')
+def run():
+    current_config = read_config_file()
+    token = current_config.get('slack_token')
 
-    args = parser.parse_args()
-
+    args = get_parsed_arguments()
+    print(args)
     if args.action == 'init':
         token = args.token
         init_config = { 'slack_token': token }
-        home_path = Path().home().resolve()
-        config_file = home_path.joinpath('.slackarchiverrc')
-        with open(config_file, 'w') as outfile:
-            json.dump(init_config, outfile)
+        write_config_File(init_config)
+        return
+   
     archiver = SlackArchiver(token)
    
     if args.action == 'archive':
-        result = archiver.get_channel_history('project-leads')
-        target_path = Path('.').resolve()
-        today = str(datetime.now())
-        output_filename = '{}_{}.json'.format(args.channel, today)
-        output_path = target_path.joinpath(output_filename)
-        with open(output_path, 'w') as outfile:
-            json.dump(result, outfile)
+        result = archiver.get_channel_history(args.channel)
+        write_to_json_archive(result)
+
+if __name__ == '__main__':
+    run()

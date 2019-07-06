@@ -2,8 +2,7 @@ import slack
 
 from datetime import datetime
 
-def load_config():
-    pass
+from exceptions import ChannelDoesNotExistException
 
 class SlackArchiver():
     def __init__(self, token: str):
@@ -19,6 +18,8 @@ class SlackArchiver():
 
     def get_channel_history(self, channel_name: str, start=None, end=None):
         channel_id = self.channels.get(channel_name)
+        if channel_id is None:
+            raise ChannelDoesNotExistException()
         raw_history = self.client.channels_history(channel=channel_id, count=1000)
 
         return [ (message.get('text'), str(datetime.fromtimestamp(float(message.get('ts'))))) for message in raw_history.get('messages') ]
