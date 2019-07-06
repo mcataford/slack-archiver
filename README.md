@@ -20,3 +20,4 @@ This project uses [invoke](http://www.pyinvoke.org/), use any of the commands be
 |Command|Effect|
 |---|---|
 |`format`|Formats the source. __This must be done to anything being committed__|
+|`test`|Runs all tests|
