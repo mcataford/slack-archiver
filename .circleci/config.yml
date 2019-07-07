@@ -8,10 +8,13 @@ jobs:
             - checkout
             - restore_cache:
                 key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
-            - run: pip install -r requirements.txt --user
+            - run: python3 -m virtualenv venv --python=python3
+            - run: source venv/bin/activate
+            - run: pip install -r requirements.txt
             - save_cache:
                 key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
                 paths:
+                    - "venv"
                     - "/usr/local/bin"
                     - "/usr/local/lib/python3.6/site-packages"
     lint:
@@ -22,6 +25,7 @@ jobs:
             - checkout
             - restore_cache:
                 key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+            - run: source venv/bin/activate
             - run: invoke lint
     test:
         working_directory: ~/project
@@ -31,6 +35,7 @@ jobs:
             - checkout
             - restore_cache:
                 key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+            - run: source venv/bin/activate            
             - run: invoke test
 
 workflows:
