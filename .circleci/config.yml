@@ -6,10 +6,10 @@ jobs:
             - image: circleci/python:3.6.4
         steps:
             - checkout
-            - restore_cache:
-                key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
             - run: python3 -m virtualenv venv --python=python3
             - run: source venv/bin/activate
+            - restore_cache:
+                key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
             - run: pip install -r requirements.txt
             - save_cache:
                 key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
@@ -23,19 +23,19 @@ jobs:
             - image: circleci/python:3.6.4
         steps:
             - checkout
+            - run: source venv/bin/activate
             - restore_cache:
                 key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
-            - run: source venv/bin/activate
-            - run: invoke lint
+                        - run: invoke lint
     test:
         working_directory: ~/project
         docker:
             - image: circleci/python:3.6.4
         steps:
             - checkout
+            - run: source venv/bin/activate
             - restore_cache:
                 key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
-            - run: source venv/bin/activate            
             - run: invoke test
 
 workflows:
