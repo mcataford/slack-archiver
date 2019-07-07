@@ -8,7 +8,7 @@ jobs:
             - checkout
             - restore_cache:
                 key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
-            - run: pip install -r requirements.txt
+            - run: pip install -r requirements.txt --user
             - save_cache:
                 key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
                 paths:
