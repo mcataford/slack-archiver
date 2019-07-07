@@ -7,7 +7,7 @@ jobs:
         steps:
             - checkout
             - run: python3 -m virtualenv venv --python=python3
-            - run: source venv/bin/activate
+            - run: source ./venv/bin/activate
             - restore_cache:
                 key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
             - run: pip install -r requirements.txt
@@ -23,7 +23,7 @@ jobs:
             - image: circleci/python:3.6.4
         steps:
             - checkout
-            - run: source venv/bin/activate
+            - run: source ./venv/bin/activate
             - restore_cache:
                 key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
             - run: invoke lint
@@ -33,7 +33,7 @@ jobs:
             - image: circleci/python:3.6.4
         steps:
             - checkout
-            - run: source venv/bin/activate
+            - run: source ./venv/bin/activate
             - restore_cache:
                 key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
             - run: invoke test
