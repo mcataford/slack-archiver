@@ -7,12 +7,12 @@ jobs:
         steps:
             - checkout
             - restore_cache:
-                key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+                key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
             - run: python3 -m virtualenv venv --python=python3
             - run: source venv/bin/activate
             - run: pip install -r requirements.txt
             - save_cache:
-                key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+                key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
                 paths:
                     - "venv"
                     - "/usr/local/bin"
@@ -24,7 +24,7 @@ jobs:
         steps:
             - checkout
             - restore_cache:
-                key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+                key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
             - run: source venv/bin/activate
             - run: invoke lint
     test:
@@ -34,7 +34,7 @@ jobs:
         steps:
             - checkout
             - restore_cache:
-                key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+                key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
             - run: source venv/bin/activate            
             - run: invoke test
 
