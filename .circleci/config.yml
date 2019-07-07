@@ -1,0 +1,45 @@
+version: 2
+jobs:
+    install:
+        working_directory: ~/project
+        docker:
+            - image: circleci/python:3.6.4
+        steps:
+            - checkout
+            - restore_cache:
+                key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+            - run: pip install -r requirements.txt
+            - save_cache:
+                key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+                paths:
+                    - "/usr/local/bin"
+                    - "/usr/local/lib/python3.6/site-packages"
+    lint:
+        working_directory: ~/project
+        docker:
+            - image: circleci/python:3.6.4
+        steps:
+            - checkout
+            - restore_cache:
+                key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+            - run: invoke lint
+    test:
+        working_directory: ~/project
+        docker:
+            - image: circleci/python:3.6.4
+        steps:
+            - checkout
+            - restore_cache:
+                key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+            - run: invoke test
+
+workflows:
+    version: 2
+    pipeline:
+        jobs:
+            - install
+            - lint:
+                requires: install
+            - test:
+                requires: install
+        
