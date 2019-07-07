@@ -15,8 +15,6 @@ jobs:
                 key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
                 paths:
                     - "venv"
-                    - "/usr/local/bin"
-                    - "/usr/local/lib/python3.6/site-packages"
     lint:
         working_directory: ~/project
         docker:
