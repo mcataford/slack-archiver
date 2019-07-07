@@ -26,7 +26,7 @@ jobs:
             - run: source venv/bin/activate
             - restore_cache:
                 key: deps-pip-{{ .Branch }}-{{ checksum "requirements.txt" }}
-                        - run: invoke lint
+            - run: invoke lint
     test:
         working_directory: ~/project
         docker:
