@@ -27,6 +27,7 @@ def run():
 
     if args.action == "archive":
         result = archiver.get_channel_history(args.channel)
+        print("Archiving {count} messages.".format(count=len(result)))
         write_to_json_archive(args.channel, result)
 
 
